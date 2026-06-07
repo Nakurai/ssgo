@@ -1,0 +1,174 @@
+{{define "content"}}
+<div class="post-index">
+  <div class="post-list">
+    {{if .Page}}{{with .Page.Title}}<h1>{{.}}</h1>{{end}}{{end}}
+    {{.Content}}
+    <p id="post-filter-label" hidden></p>
+    {{range .Posts}}
+    <article class="post-item" data-year="{{.Date.Year}}" data-month="{{.Date.Format "January"}}" data-tags="{{range $i,$t := .Tags}}{{if $i}},{{end}}{{$t}}{{end}}">
+      <h2 class="post-item-title"><a href="{{.URL}}">{{.Title}}</a></h2>
+      {{if not .Date.IsZero}}<p class="post-meta"><time>{{.Date.Format "January 2, 2006"}}</time></p>{{end}}
+      {{with .Excerpt}}<p class="post-excerpt">{{.}}</p>{{end}}
+      {{if .Tags}}<p class="post-tags">{{range .Tags}}<span class="tag">{{.}}</span>{{end}}</p>{{end}}
+    </article>
+    {{else}}
+    <p class="muted">No posts yet. Add a page with <code>type: blog-post</code> under <code>content/</code>.</p>
+    {{end}}
+  </div>
+  <aside class="post-aside">
+    <section class="archive">
+      <h3>Archive</h3>
+      {{range .Archive}}
+      {{$yr := .Year}}
+      <details class="archive-year">
+        <summary><span class="filter-link" data-filter-year="{{.Year}}">{{.Year}}</span> <span class="count">{{.Count}}</span></summary>
+        {{range .Months}}
+        <details class="archive-month">
+          <summary><span class="filter-link" data-filter-year="{{$yr}}" data-filter-month="{{.Name}}">{{.Name}}</span> <span class="count">{{.Count}}</span></summary>
+          <ul>
+            {{range .Days}}<li>{{.Day}} <span class="count">{{.Count}}</span></li>{{end}}
+          </ul>
+        </details>
+        {{end}}
+      </details>
+      {{else}}<p class="muted">No dated posts yet.</p>{{end}}
+    </section>
+    <section class="tag-cloud">
+      <h3>Tags</h3>
+      {{if .Tags}}
+      <ul class="tag-list">
+        {{range .Tags}}<li><span class="filter-link" data-filter-tag="{{.Tag}}">{{.Tag}}</span> <span class="count">{{.Count}}</span></li>{{end}}
+      </ul>
+      {{else}}<p class="muted">No tags yet.</p>{{end}}
+    </section>
+  </aside>
+</div>
+{{end}}
+{{define "style"}}
+.post-index{display:grid;grid-template-columns:1fr 190px;gap:2rem;align-items:start}
+.post-item{padding:1.25rem 0;border-bottom:1px solid var(--color-surface)}
+.post-item:last-child{border-bottom:none}
+.post-item-title{margin:0 0 .2rem;font-size:1.2rem}
+.post-item-title a{text-decoration:none}
+.post-item-title a:hover{text-decoration:underline}
+.post-item .post-meta{margin:.1rem 0 .5rem}
+.post-excerpt{margin:.4rem 0 0;font-size:.95rem}
+.post-item .post-tags{margin:.5rem 0 0}
+.post-aside{font-size:.88rem}
+.post-aside h3{margin:0 0 .6rem;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--color-secondary);font-weight:600}
+.post-aside section{margin-bottom:1.75rem}
+.archive details{margin:.15rem 0}
+.archive summary{cursor:pointer;color:var(--color-secondary);list-style:none}
+.archive summary::-webkit-details-marker{display:none}
+.archive-month{margin-left:1rem}
+.archive ul{list-style:none;margin:.15rem 0 .15rem 1rem;padding:0}
+.count{color:var(--color-secondary);font-size:.8rem;opacity:.6}
+.tag-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.2rem .5rem}
+.tag-list li{margin:0}
+.muted{color:var(--color-secondary);font-size:.9rem;font-style:italic}
+@media(max-width:640px){.post-index{grid-template-columns:1fr}}
+.filter-link{cursor:pointer;text-decoration:underline;text-underline-offset:2px;text-decoration-style:dotted}
+.filter-link:hover{color:var(--color-primary)}
+.filter-link.active{color:var(--color-primary);font-style:italic}
+#post-filter-label{font-size:.82rem;color:var(--color-secondary);margin-bottom:.75rem;font-style:italic}
+#post-filter-label a{color:inherit;cursor:pointer;font-style:normal}
+{{end}}
+{{define "scripts"}}
+<script>
+(function(){
+  var posts = Array.from(document.querySelectorAll('.post-item'));
+  var label = document.getElementById('post-filter-label');
+  var state = {type:null,year:null,month:null,tag:null};
+
+  function matches(p){
+    if(state.type==='year') return p.dataset.year===state.year;
+    if(state.type==='month') return p.dataset.year===state.year && p.dataset.month===state.month;
+    if(state.type==='tag'){
+      var tags=p.dataset.tags?p.dataset.tags.split(','):[];
+      return tags.indexOf(state.tag)!==-1;
+    }
+    return true;
+  }
+
+  function applyFilter(cap){
+    var visible=0;
+    posts.forEach(function(p){
+      var show=matches(p);
+      if(show && cap && visible>=cap) show=false;
+      if(show) visible++;
+      p.style.display=show?'':'none';
+    });
+
+    document.querySelectorAll('.filter-link').forEach(function(el){
+      var active=false;
+      if(state.type==='year' && el.dataset.filterYear===state.year && !el.dataset.filterMonth) active=true;
+      if(state.type==='month' && el.dataset.filterYear===state.year && el.dataset.filterMonth===state.month) active=true;
+      if(state.type==='tag' && el.dataset.filterTag===state.tag) active=true;
+      el.classList.toggle('active',active);
+    });
+
+    if(state.type){
+      var desc='';
+      if(state.type==='year') desc='Year: '+state.year;
+      if(state.type==='month') desc=state.month+' '+state.year;
+      if(state.type==='tag') desc='Tag: '+state.tag;
+      label.innerHTML=desc+' &mdash; <a id="post-filter-reset">Show all</a>';
+      label.hidden=false;
+      document.getElementById('post-filter-reset').addEventListener('click',function(){
+        state={type:null,year:null,month:null,tag:null};
+        applyFilter(null);
+      });
+    } else {
+      label.hidden=true;
+    }
+  }
+
+  var currentYear=String(new Date().getFullYear());
+  var yearPosts=posts.filter(function(p){return p.dataset.year===currentYear;});
+  if(yearPosts.length>0){
+    state={type:'year',year:currentYear,month:null,tag:null};
+  }
+  applyFilter(100);
+
+  document.querySelectorAll('[data-filter-year]:not([data-filter-month])').forEach(function(el){
+    el.addEventListener('click',function(e){
+      e.stopPropagation();
+      var yr=el.dataset.filterYear;
+      if(state.type==='year' && state.year===yr){
+        state={type:null,year:null,month:null,tag:null};
+      } else {
+        state={type:'year',year:yr,month:null,tag:null};
+      }
+      applyFilter(null);
+    });
+  });
+
+  document.querySelectorAll('[data-filter-month]').forEach(function(el){
+    el.addEventListener('click',function(e){
+      e.stopPropagation();
+      var yr=el.dataset.filterYear;
+      var mo=el.dataset.filterMonth;
+      if(state.type==='month' && state.year===yr && state.month===mo){
+        state={type:null,year:null,month:null,tag:null};
+      } else {
+        state={type:'month',year:yr,month:mo,tag:null};
+      }
+      applyFilter(null);
+    });
+  });
+
+  document.querySelectorAll('[data-filter-tag]').forEach(function(el){
+    el.addEventListener('click',function(e){
+      e.stopPropagation();
+      var tag=el.dataset.filterTag;
+      if(state.type==='tag' && state.tag===tag){
+        state={type:null,year:null,month:null,tag:null};
+      } else {
+        state={type:'tag',year:null,month:null,tag:tag};
+      }
+      applyFilter(null);
+    });
+  });
+})();
+</script>
+{{end}}

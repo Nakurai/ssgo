@@ -1,0 +1,76 @@
+{{define "base"}}<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{if .Page}}{{with .Page.Title}}{{.}} — {{end}}{{end}}{{.Site.Title}}</title>
+{{if .Favicon}}<link rel="icon" href="{{.Favicon}}">{{end}}
+<style>
+{{.ColorVars}}
+*,*::before,*::after{box-sizing:border-box}
+html{font-size:17px}
+body{margin:0;font-family:Georgia,"Times New Roman",serif;line-height:1.75;color:var(--color-text);background:var(--color-background)}
+a{color:var(--color-primary);text-decoration:underline;text-underline-offset:2px}
+h1,h2,h3,h4,h5,h6{line-height:1.25;margin-top:1.6em;font-weight:600}
+h1{font-size:2.1rem}h2{font-size:1.55rem}h3{font-size:1.25rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em}
+pre{background:var(--color-surface);padding:1em;overflow-x:auto;border-radius:4px}
+pre code{font-size:.85em}
+blockquote{border-left:2px solid var(--color-secondary);margin:0;padding:0 1em;color:var(--color-secondary);font-style:italic}
+img{max-width:100%;height:auto}
+hr{border:none;border-top:1px solid var(--color-surface);margin:2.5rem 0}
+.w{max-width:42rem;margin:0 auto;padding:0 1.25rem}
+.site-header{padding:2.5rem 0 1rem}
+.site-title{font-size:1.1rem;font-weight:700;margin:0;letter-spacing:.02em}
+.site-title a{color:var(--color-text);text-decoration:none;display:inline-flex;align-items:center;gap:.5rem}
+.site-logo{height:28px;width:auto;max-width:100%;display:block}
+.site-nav-row{display:flex;align-items:center;justify-content:space-between;margin-top:.6rem}
+.site-nav{display:flex;gap:1rem;flex-wrap:wrap}
+.site-nav a{color:var(--color-secondary);font-size:.85rem;text-decoration:none}
+.site-nav a:hover{color:var(--color-primary)}
+.nav-search{position:relative}
+.nav-search input{padding:.3em .7em;font-size:.82rem;border:1px solid var(--color-secondary);border-radius:3px;outline:none;color:var(--color-text);background:var(--color-background);font-family:inherit;width:130px;transition:width .2s}
+.nav-search input:focus{border-color:var(--color-primary);width:190px}
+.site-main{padding:1.5rem 0 3rem;min-height:60vh}
+.site-footer{padding:2rem 0;font-size:.8rem;color:var(--color-secondary)}
+.ssg-banner{padding:.4em .9em;border-radius:3px;margin-bottom:1.5rem;font-size:.85rem;font-weight:600;display:inline-block}
+.ssg-draft{background:#fef3c7;color:#92400e}
+.ssg-future{background:#dbeafe;color:#1e40af}
+.ssg-hero{text-align:center;padding:3rem 0;margin-bottom:1.5rem}
+.ssg-hero h1{font-size:2.4rem;margin:0 0 .4rem}
+.ssg-centered{text-align:center}
+.ssg-centered img{display:block;margin:0 auto}
+.post-meta{font-size:.85rem;color:var(--color-secondary);margin:.25rem 0 2rem;font-style:italic}
+.post-tags{margin:2rem 0 0;font-size:.85rem;color:var(--color-secondary)}
+.tag{margin-right:.5rem}
+.search-results{position:absolute;right:0;top:calc(100% + .3em);background:var(--color-background);border:1px solid var(--color-surface);border-radius:3px;z-index:100;min-width:260px;max-height:400px;overflow-y:auto}
+.search-results:empty{display:none}
+.search-result{padding:.6rem 0;border-bottom:1px solid var(--color-surface)}
+.search-result:last-child{border-bottom:none}
+.search-result a{font-weight:600;text-decoration:none;display:block;padding:0 .75rem}
+.search-snippet{font-size:.82rem;color:var(--color-secondary);margin:.2rem 0 0;padding:0 .75rem}
+{{block "style" .}}{{end}}
+</style>
+</head>
+<body>
+<div class="w">
+<header class="site-header">
+  <p class="site-title"><a href="/">{{if .Site.Logo}}<img class="site-logo" src="{{.Site.Logo}}" alt="{{.Site.Title}}">{{end}}<span>{{.Site.Title}}</span></a></p>
+  <div class="site-nav-row">
+    {{if .Nav}}<nav class="site-nav">{{range .Nav}}<a href="{{.URL}}">{{.Title}}</a>{{end}}</nav>{{end}}
+    <div class="nav-search">
+      <input type="text" id="ssg-search-input" placeholder="Search…" autocomplete="off">
+      <div id="ssg-search-results" class="search-results"></div>
+    </div>
+  </div>
+</header>
+<main class="site-main">
+{{block "content" .}}{{end}}
+</main>
+<footer class="site-footer"><p>Built with ssg</p></footer>
+</div>
+<script src="/search.js"></script>
+{{block "scripts" .}}{{end}}
+</body>
+</html>
+{{end}}
