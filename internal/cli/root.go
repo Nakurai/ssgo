@@ -5,7 +5,7 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "ssg",
+	Use:   "ssgo",
 	Short: "A static site generator",
 }
 

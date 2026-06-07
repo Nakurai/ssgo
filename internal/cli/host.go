@@ -9,8 +9,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"ssg.nakurai/internal/config"
-	"ssg.nakurai/internal/host"
+	"github.com/nakurai/ssgo/internal/config"
+	"github.com/nakurai/ssgo/internal/host"
 )
 
 var hostForce bool
@@ -59,9 +59,9 @@ func runHost(cmd *cobra.Command, args []string) error {
 	}
 	cfg.Host = codename
 	if err := config.Save(wd, cfg); err != nil {
-		return fmt.Errorf("save ssg.json: %w", err)
+		return fmt.Errorf("save ssgo.json: %w", err)
 	}
-	fmt.Printf("ssg.json updated: host = %q\n", codename)
+	fmt.Printf("ssgo.json updated: host = %q\n", codename)
 	return nil
 }
 

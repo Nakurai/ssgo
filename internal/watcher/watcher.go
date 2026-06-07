@@ -15,7 +15,7 @@ type EventKind int
 const (
 	KindContent  EventKind = iota // a .md file changed
 	KindTemplate                  // a template file changed
-	KindConfig                    // ssg.json changed
+	KindConfig                    // ssgo.json changed
 )
 
 // Event is emitted by the watcher after debouncing.
@@ -137,7 +137,7 @@ func (w *Watcher) loop() {
 func classify(path string) EventKind {
 	base := filepath.Base(path)
 	switch {
-	case base == "ssg.json":
+	case base == "ssgo.json":
 		return KindConfig
 	case filepath.Ext(path) == ".html":
 		return KindTemplate

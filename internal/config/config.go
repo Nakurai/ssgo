@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 )
 
-const Filename = "ssg.json"
+const Filename = "ssgo.json"
 
 type Profile struct {
 	BaseURL string `json:"baseURL"`
@@ -60,8 +60,8 @@ func (c Colors) CSSVars() string {
 type Config struct {
 	Title   string  `json:"title"`
 	Style   string  `json:"style"`
-	Logo    string  `json:"logo,omitempty"`
-	Favicon string  `json:"favicon,omitempty"`
+	Logo    string  `json:"logo"`
+	Favicon string  `json:"favicon"`
 	Host    string  `json:"host,omitempty"`
 	Colors  Colors  `json:"colors"`
 	Dev     Profile `json:"dev"`

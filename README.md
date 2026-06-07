@@ -1,7 +1,7 @@
-# ssg
+# ssgo
 
 A small static site generator. You write **Markdown**, pick a **type** for each
-page, and `ssg` renders a complete static website — HTML, CSS, client-side search,
+page, and `ssgo` renders a complete static website — HTML, CSS, client-side search,
 and a clean URL structure. You never write HTML, CSS, or JavaScript: all styling
 lives in the templates that ship with the tool, and you control the look through a
 config file.
@@ -22,16 +22,16 @@ config file.
   - [The navigation menu](#the-navigation-menu)
   - [Images and media](#images-and-media)
 - [URLs](#urls)
-- [Configuration (`ssg.json`)](#configuration-ssgjson)
+- [Configuration (`ssgo.json`)](#configuration-ssgojson)
   - [Colors](#colors)
   - [Styles](#styles)
 - [Search](#search)
 - [Commands](#commands)
-  - [`ssg init`](#ssg-init)
-  - [`ssg generate`](#ssg-generate)
-  - [`ssg watch`](#ssg-watch)
-  - [`ssg host`](#ssg-host)
-  - [`ssg deploy`](#ssg-deploy)
+  - [`ssgo init`](#ssgo-init)
+  - [`ssgo generate`](#ssgo-generate)
+  - [`ssgo watch`](#ssgo-watch)
+  - [`ssgo host`](#ssgo-host)
+  - [`ssgo deploy`](#ssgo-deploy)
 - [Deploying to Firebase](#deploying-to-firebase)
 
 ---
@@ -40,31 +40,31 @@ config file.
 
 ```sh
 # 1. Create a new site in the current directory
-ssg init --url https://example.com
+ssgo init --url https://example.com
 
 # 2. Preview it locally with live reload
-ssg watch          # serves http://localhost:8088
+ssgo watch          # serves http://localhost:8088
 
 # 3. Build the production site
-ssg generate       # writes build/prod/
+ssgo generate       # writes build/prod/
 
 # 4. (Optional) configure a host and deploy
-ssg host firebase
-ssg deploy --build
+ssgo host firebase
+ssgo deploy --build
 ```
 
-`ssg init` seeds the project with example content, so `generate` and `watch` work
+`ssgo init` seeds the project with example content, so `generate` and `watch` work
 immediately — you can edit the samples or replace them.
 
 ---
 
 ## The project layout
 
-After `ssg init` your directory looks like this:
+After `ssgo init` your directory looks like this:
 
 ```
 my-site/
-  ssg.json                  # site configuration (title, colors, style, URLs, host)
+  ssgo.json                  # site configuration (title, colors, style, URLs, host)
   content/                  # your Markdown — this is where you work
     index.md
     about.md
@@ -77,11 +77,11 @@ my-site/
       default/              # the shipped templates (HTML + CSS); editable
         base.html  page.html  post.html  post-index.html  index.html  404.html  default.html
   build/
-    dev/                    # output of `ssg watch`  (unminified, live reload)
-    prod/                   # output of `ssg generate` (minified, production)
+    dev/                    # output of `ssgo watch`  (unminified, live reload)
+    prod/                   # output of `ssgo generate` (minified, production)
 ```
 
-You spend almost all of your time in **`content/`**. You touch **`ssg.json`** to
+You spend almost all of your time in **`content/`**. You touch **`ssgo.json`** to
 change the title, colors, or URLs. You only go into `template/` if you want to
 restyle the site (see [Styles](#styles)).
 
@@ -145,7 +145,7 @@ The block opens with three or more colons followed by a **name**, and closes wit
 a line of colons on its own. Everything inside is ordinary Markdown — headings,
 images, links, lists, even other directives all work as usual.
 
-Each directive renders as `<div class="ssg-<name>">…</div>`, and the matching
+Each directive renders as `<div class="ssgo-<name>">…</div>`, and the matching
 styling lives in your style's templates. The shipped styles include two built-in
 directives:
 
@@ -186,7 +186,7 @@ style includes these types:
 > **Blog posts** are written with `type: blog-post`. They render through the
 > `post` template and are the only type subject to draft/scheduling rules.
 
-If you set a `type` that has no matching template, `ssg` falls back to the
+If you set a `type` that has no matching template, `ssgo` falls back to the
 `default` template rather than failing the build.
 
 ### Blog posts: drafts and scheduling
@@ -212,10 +212,10 @@ My first post.
 
 What happens at build time depends on the command:
 
-- **`ssg generate` (production):** a blog post is **excluded** from the build if it
+- **`ssgo generate` (production):** a blog post is **excluded** from the build if it
   is a draft *or* its date is in the future. It is skipped entirely — no page, no
   URL, no search entry, no nav link.
-- **`ssg watch` (preview):** **all** posts are shown so you can preview your work.
+- **`ssgo watch` (preview):** **all** posts are shown so you can preview your work.
   Drafts and scheduled posts render with a visible banner at the top of the page
   (amber for drafts, blue for scheduled) so you can tell them apart from live
   content.
@@ -292,7 +292,7 @@ Reference images (and other media) from Markdown the normal way. Paths can be:
 - **Relative** to the Markdown file: `![](./diagram.png)` or `![](images/logo.svg)`
 - **Absolute** filesystem paths: `![](/Users/me/pictures/photo.jpg)`
 
-When you build, `ssg` copies every referenced file into a single `assets/` folder
+When you build, `ssgo` copies every referenced file into a single `assets/` folder
 in the output, names it by content hash (so identical files are stored once), and
 rewrites the link to `/assets/<hash>.<ext>`. External links (`http://`, `https://`,
 `//…`) and anchors are left untouched.
@@ -303,7 +303,7 @@ You never manage the `assets/` folder yourself — it is produced by the build.
 
 ## URLs
 
-`ssg` produces clean, pretty URLs from your folder structure. The file's path under
+`ssgo` produces clean, pretty URLs from your folder structure. The file's path under
 `content/` determines its URL:
 
 | Markdown file              | Output                       | URL          |
@@ -318,9 +318,9 @@ This means there are no `.html` extensions in your URLs.
 
 ---
 
-## Configuration (`ssg.json`)
+## Configuration (`ssgo.json`)
 
-`ssg init` writes an `ssg.json` at the project root. It controls the site's
+`ssgo init` writes an `ssgo.json` at the project root. It controls the site's
 identity, look, and deployment target:
 
 ```json
@@ -353,11 +353,11 @@ favicon (see [Logo and favicon](#logo-and-favicon) for accepted path values).
 | `favicon` | Optional site favicon (see below); omit for none                       |
 | `host`   | Hosting provider codename (`""` = none, `"firebase"` = Firebase)         |
 | `colors` | The theme palette (see below)                                           |
-| `dev`    | Settings used by `ssg watch` — the local base URL                       |
-| `prod`   | Settings used by `ssg generate` — the production base URL               |
+| `dev`    | Settings used by `ssgo watch` — the local base URL                       |
+| `prod`   | Settings used by `ssgo generate` — the production base URL               |
 
-There is no "mode" flag to remember: `ssg generate` always uses the `prod` settings
-and writes to `build/prod/`; `ssg watch` always uses `dev` and writes to
+There is no "mode" flag to remember: `ssgo generate` always uses the `prod` settings
+and writes to `build/prod/`; `ssgo watch` always uses `dev` and writes to
 `build/dev/`.
 
 ### Logo and favicon
@@ -372,7 +372,7 @@ The `favicon` field works the same way and is shared across builds. Both `logo`
 and `favicon` are site-wide, top-level fields, and both accept the same kinds of
 value, resolved at build time:
 
-- **A path relative to `ssg.json`** — e.g. `"logo.png"` or `"assets/icon.svg"`.
+- **A path relative to `ssgo.json`** — e.g. `"logo.png"` or `"assets/icon.svg"`.
   The file is copied into the output `assets/` folder (content-hashed and
   deduplicated, like [images](#images-and-media)) and the link is rewritten for
   you. If the file is missing, the build fails with a clear error.
@@ -394,7 +394,7 @@ default.
 | `secondary`  | Subtitles, dates, borders, muted text                | `#64748b` |
 | `surface`    | Code blocks, cards, sidebars                          | `#f5f5f5` |
 
-Edit a color, run `ssg generate` (or just save while `ssg watch` is running), and
+Edit a color, run `ssgo generate` (or just save while `ssgo watch` is running), and
 the whole site updates.
 
 ### Styles
@@ -405,9 +405,9 @@ under `template/style/`. Switching styles swaps the entire markup and CSS at onc
 To use a different style:
 
 1. Drop a folder of templates into `template/style/`, e.g. `template/style/dark/`.
-2. Set `"style": "dark"` in `ssg.json`.
+2. Set `"style": "dark"` in `ssgo.json`.
 
-That's it — no other wiring. The default templates installed by `ssg init` live in
+That's it — no other wiring. The default templates installed by `ssgo init` live in
 `template/style/default/`; copy that folder as a starting point for your own style.
 
 A style folder must contain `base.html` (plus the per-type templates). If the named
@@ -420,7 +420,7 @@ automatically as long as their CSS references the `--color-*` variables.
 ## Search
 
 Every site gets **client-side full-text search** with no server required. At build
-time `ssg` writes a compact trigram index (`search-index.json`) alongside a small
+time `ssgo` writes a compact trigram index (`search-index.json`) alongside a small
 search script. The shipped templates wire both in, so search works in the browser
 out of the box. Drafts and scheduled posts that are excluded from a production
 build are also excluded from its search index.
@@ -429,26 +429,26 @@ build are also excluded from its search index.
 
 ## Commands
 
-`ssg` has five commands.
+`ssgo` has five commands.
 
-### `ssg init`
+### `ssgo init`
 
 ```sh
-ssg init [--url <prodURL>] [--force]
+ssgo init [--url <prodURL>] [--force]
 ```
 
 Scaffolds a new project in the current directory: creates `content/`,
-`template/style/default/`, and `build/{dev,prod}/`; writes `ssg.json` (with `--url`
+`template/style/default/`, and `build/{dev,prod}/`; writes `ssgo.json` (with `--url`
 as the production base URL, or a placeholder if omitted); installs the default
 templates; and seeds `content/` with an example home page, an about page, a
 couple of tagged blog posts, and a `post-index` page at `/blog/`.
 
-Refuses to overwrite an existing `ssg.json` unless you pass `--force`.
+Refuses to overwrite an existing `ssgo.json` unless you pass `--force`.
 
-### `ssg generate`
+### `ssgo generate`
 
 ```sh
-ssg generate
+ssgo generate
 ```
 
 Builds the **production** site into `build/prod/`. Renders every page, applies
@@ -456,31 +456,31 @@ blog-post filtering (drafts and future-dated posts are excluded), collects the n
 copies and deduplicates media into `assets/`, builds the search index, and writes a
 `404.html`. Output is minified and pages are rendered concurrently.
 
-### `ssg watch`
+### `ssgo watch`
 
 ```sh
-ssg watch
+ssgo watch
 ```
 
 Builds a **preview** site into `build/dev/` and serves it at
 `http://localhost:8088` with **live reload** — edit a `.md` file, a template, or
-`ssg.json` and the browser refreshes automatically. The preview is unminified and
+`ssgo.json` and the browser refreshes automatically. The preview is unminified and
 shows *all* content, including drafts and scheduled posts (with warning banners).
 
-### `ssg host`
+### `ssgo host`
 
 ```sh
-ssg host [<codename>]
+ssgo host [<codename>]
 ```
 
 One-time, interactive setup of a hosting provider. Writes the provider's config
-files and records the provider in `ssg.json`. Currently the only provider is
+files and records the provider in `ssgo.json`. Currently the only provider is
 `firebase`. See [Deploying to Firebase](#deploying-to-firebase).
 
-### `ssg deploy`
+### `ssgo deploy`
 
 ```sh
-ssg deploy [--build]
+ssgo deploy [--build]
 ```
 
 Pushes `build/prod/` to the configured host. With no host configured it's a
@@ -506,19 +506,26 @@ firebase login
 and optionally a multi-site hosting site ID):
 
 ```sh
-ssg host firebase
+ssgo host firebase
 ```
 
 This writes `firebase.json` and `.firebaserc`, fixes the public directory to
-`build/prod`, and sets `"host": "firebase"` in `ssg.json`.
+`build/prod`, and sets `"host": "firebase"` in `ssgo.json`.
 
 **Deploy:**
 
 ```sh
-ssg deploy --build    # build the prod site, then push it
+ssgo deploy --build    # build the prod site, then push it
 # or, if build/prod/ is already up to date:
-ssg deploy
+ssgo deploy
 ```
 
 On success the live URLs (`https://<projectID>.web.app` and
 `https://<projectID>.firebaseapp.com`) are printed.
+
+## License
+
+ssgo is licensed under the [PolyForm Noncommercial License 1.0.0](LICENSE). You
+may use, modify, and share it freely for any noncommercial purpose. Selling the
+software or any commercial use requires a separate license — contact
+[nakurai](https://github.com/nakurai).

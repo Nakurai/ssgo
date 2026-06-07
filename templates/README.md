@@ -1,6 +1,6 @@
 # Templates
 
-Each subfolder here is a self-contained ssg **style**: a set of `*.html`
+Each subfolder here is a self-contained ssgo **style**: a set of `*.html`
 files including a `base.html` that defines the `base`, `content`, `style`,
 and `scripts` blocks. They are independent of the binary and distributed as
 zip archives.
@@ -15,10 +15,10 @@ contain at least `base.html`; per-page-type files (`index.html`, `page.html`,
 blocks for that type, with `default.html` used as the fallback.
 
 **Layout directives.** Content authors can wrap Markdown in `:::name … :::`
-blocks, which render as `<div class="ssg-<name>">…</div>` (same as how draft
-banners use `.ssg-banner`). A style should define the matching `.ssg-*` rules in
-its `base.html` `<style>` block — the built-in styles ship `.ssg-hero` and
-`.ssg-centered`. Adding support for a new directive is just a new CSS rule; no
+blocks, which render as `<div class="ssgo-<name>">…</div>` (same as how draft
+banners use `.ssgo-banner`). A style should define the matching `.ssgo-*` rules in
+its `base.html` `<style>` block — the built-in styles ship `.ssgo-hero` and
+`.ssgo-centered`. Adding support for a new directive is just a new CSS rule; no
 binary changes are needed.
 
 ## Packaging
@@ -29,9 +29,9 @@ a static host, etc.) and they are **not** committed to the repo.
 
 ## Using a template
 
-    ssg init --from https://example.com/minimal.zip   # new site
-    ssg style add --from ./minimal.zip --name minimal  # existing site
-    ssg style switch --name minimal                    # activate it
-    ssg style list                                     # see installed styles
+    ssgo init --from https://example.com/minimal.zip   # new site
+    ssgo style add --from ./minimal.zip --name minimal  # existing site
+    ssgo style switch --name minimal                    # activate it
+    ssgo style list                                     # see installed styles
 
 `--from` also accepts a local directory or a local `.zip`.

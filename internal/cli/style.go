@@ -10,8 +10,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"ssg.nakurai/internal/config"
-	"ssg.nakurai/internal/template"
+	"github.com/nakurai/ssgo/internal/config"
+	"github.com/nakurai/ssgo/internal/template"
 )
 
 var styleCmd = &cobra.Command{
@@ -88,7 +88,7 @@ func runStyleAdd(cmd *cobra.Command, args []string) error {
 	}
 
 	fmt.Printf("Added style %q to template/style/%s\n", name, name)
-	fmt.Printf("  Activate it with: ssg style switch --name %s\n", name)
+	fmt.Printf("  Activate it with: ssgo style switch --name %s\n", name)
 	return nil
 }
 
@@ -148,7 +148,7 @@ func runStyleSwitch(cmd *cobra.Command, args []string) error {
 	if _, err := os.Stat(dest); err != nil {
 		// "default" is always available via the embedded fallback.
 		if styleSwitchName != "default" {
-			return fmt.Errorf("style %q not found; run 'ssg style list' to see installed styles", styleSwitchName)
+			return fmt.Errorf("style %q not found; run 'ssgo style list' to see installed styles", styleSwitchName)
 		}
 	}
 
@@ -164,14 +164,14 @@ func runStyleSwitch(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-// requireProject returns the working directory if it contains an ssg.json.
+// requireProject returns the working directory if it contains an ssgo.json.
 func requireProject() (string, error) {
 	wd, err := os.Getwd()
 	if err != nil {
 		return "", err
 	}
 	if _, err := os.Stat(filepath.Join(wd, config.Filename)); err != nil {
-		return "", fmt.Errorf("no %s found in %s; run 'ssg init' first", config.Filename, wd)
+		return "", fmt.Errorf("no %s found in %s; run 'ssgo init' first", config.Filename, wd)
 	}
 	return wd, nil
 }

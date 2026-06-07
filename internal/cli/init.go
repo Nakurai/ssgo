@@ -9,9 +9,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"ssg.nakurai/assets"
-	"ssg.nakurai/internal/config"
-	"ssg.nakurai/internal/template"
+	"github.com/nakurai/ssgo/assets"
+	"github.com/nakurai/ssgo/internal/config"
+	"github.com/nakurai/ssgo/internal/template"
 )
 
 var initCmd = &cobra.Command{
@@ -29,7 +29,7 @@ var (
 
 func init() {
 	initCmd.Flags().StringVar(&initURL, "url", "", "Production base URL (e.g. https://example.com)")
-	initCmd.Flags().BoolVar(&initForce, "force", false, "Overwrite an existing ssg.json")
+	initCmd.Flags().BoolVar(&initForce, "force", false, "Overwrite an existing ssgo.json")
 	initCmd.Flags().StringVar(&initFrom, "from", "", "Template source: http(s) URL, local .zip, or directory (defaults to the embedded template)")
 	initCmd.Flags().StringVar(&initStyle, "style", "", "Name to install the style as (defaults to the source name, or \"default\")")
 }
@@ -71,7 +71,7 @@ func runInit(cmd *cobra.Command, args []string) error {
 		}
 	}
 
-	// Write ssg.json
+	// Write ssgo.json
 	prodURL := initURL
 	if prodURL == "" {
 		prodURL = "https://example.com"
@@ -107,7 +107,7 @@ func runInit(cmd *cobra.Command, args []string) error {
 	if initURL == "" {
 		fmt.Printf("  Note: edit %s and set prod.baseURL to your real URL (currently %q)\n", config.Filename, prodURL)
 	}
-	fmt.Println("  Run 'ssg generate' to build or 'ssg watch' to start the dev server.")
+	fmt.Println("  Run 'ssgo generate' to build or 'ssgo watch' to start the dev server.")
 	return nil
 }
 

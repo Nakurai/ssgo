@@ -15,33 +15,33 @@ func TestDirectiveRendering(t *testing.T) {
 		{
 			name:     "simple directive wraps in prefixed div",
 			src:      ":::hero\n# Welcome\n:::\n",
-			contains: []string{`<div class="ssg-hero">`, "<h1", "Welcome", "</h1>", "</div>"},
+			contains: []string{`<div class="ssgo-hero">`, "<h1", "Welcome", "</h1>", "</div>"},
 		},
 		{
 			name:     "inner content is parsed as markdown",
 			src:      ":::centered\nSome **bold** text.\n:::\n",
-			contains: []string{`<div class="ssg-centered">`, "<strong>bold</strong>"},
+			contains: []string{`<div class="ssgo-centered">`, "<strong>bold</strong>"},
 		},
 		{
 			name:     "hyphenated name is allowed",
 			src:      ":::call-to-action\nClick me\n:::\n",
-			contains: []string{`<div class="ssg-call-to-action">`},
+			contains: []string{`<div class="ssgo-call-to-action">`},
 		},
 		{
 			name:     "nested directives use more colons on the outer fence",
 			src:      "::::hero\n:::centered\n![pic](pic.png)\n:::\n::::\n",
-			contains: []string{`<div class="ssg-hero">`, `<div class="ssg-centered">`},
+			contains: []string{`<div class="ssgo-hero">`, `<div class="ssgo-centered">`},
 		},
 		{
 			name:     "invalid name is not treated as a directive",
 			src:      ":::Bad Name\nhello\n:::\n",
-			absent:   []string{`class="ssg-`},
+			absent:   []string{`class="ssgo-`},
 			contains: []string{"hello"},
 		},
 		{
 			name:     "fewer than three colons is not a directive",
 			src:      "::hero\nhello\n::\n",
-			absent:   []string{`class="ssg-`},
+			absent:   []string{`class="ssgo-`},
 		},
 	}
 
@@ -81,7 +81,7 @@ func TestDirectiveRegistryOverride(t *testing.T) {
 			t.Errorf("output missing %q\ngot:\n%s", want, out)
 		}
 	}
-	if strings.Contains(out, `class="ssg-note"`) {
+	if strings.Contains(out, `class="ssgo-note"`) {
 		t.Errorf("registry override should suppress the generic wrapper\ngot:\n%s", out)
 	}
 }

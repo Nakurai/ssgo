@@ -15,11 +15,11 @@ import (
 	mhtml "github.com/tdewolff/minify/v2/html"
 	mjs "github.com/tdewolff/minify/v2/js"
 
-	"ssg.nakurai/assets"
-	"ssg.nakurai/internal/config"
-	"ssg.nakurai/internal/content"
-	"ssg.nakurai/internal/search"
-	tmpl "ssg.nakurai/internal/template"
+	"github.com/nakurai/ssgo/assets"
+	"github.com/nakurai/ssgo/internal/config"
+	"github.com/nakurai/ssgo/internal/content"
+	"github.com/nakurai/ssgo/internal/search"
+	tmpl "github.com/nakurai/ssgo/internal/template"
 )
 
 // Options controls a single build run.
@@ -264,7 +264,7 @@ func loadTemplates(projectDir, style string) (*tmpl.Set, error) {
 	// If the style root doesn't exist at all, silently use embedded defaults.
 	styleRoot := filepath.Join(projectDir, "template", "style")
 	if _, err := os.Stat(styleRoot); err != nil {
-		log.Println("hint: run 'ssg init' to write default templates")
+		log.Println("hint: run 'ssgo init' to write default templates")
 		sub, err := fs.Sub(assets.FS, "templates")
 		if err != nil {
 			return nil, err

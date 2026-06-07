@@ -45,7 +45,7 @@
   }
 
   function render(results) {
-    var el = document.getElementById('ssg-search-results');
+    var el = document.getElementById('ssgo-search-results');
     if (!el) return;
     if (!results.length) { el.innerHTML = ''; return; }
     el.innerHTML = results.map(function (r) {
@@ -57,7 +57,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    var input = document.getElementById('ssg-search-input');
+    var input = document.getElementById('ssgo-search-input');
     if (!input) return;
     loadIndex().then(function () {
       input.addEventListener('input', function () {

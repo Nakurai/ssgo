@@ -19,17 +19,17 @@ import (
 //	# Welcome
 //	:::
 //
-// renders to `<div class="ssg-hero"> … </div>` with its inner content parsed as
-// normal Markdown. The matching `.ssg-hero` styling lives in each style's
+// renders to `<div class="ssgo-hero"> … </div>` with its inner content parsed as
+// normal Markdown. The matching `.ssgo-hero` styling lives in each style's
 // base.html, so authors only ever need to know the directive *name*.
 //
 // Adding a new directive is, in the common case, zero Go: any valid name renders
-// as `<div class="ssg-<name>">`, so a new directive is just a new CSS rule. The
+// as `<div class="ssgo-<name>">`, so a new directive is just a new CSS rule. The
 // directiveRegistry below is the escape hatch for the rare directive that needs
 // richer markup than a class wrapper.
 
 // Directive customises how a named directive renders. Both fields are optional;
-// when Open is nil the generic `<div class="ssg-<name>">` wrapper is used, and
+// when Open is nil the generic `<div class="ssgo-<name>">` wrapper is used, and
 // when Close is empty the wrapper closes with `</div>`.
 type Directive struct {
 	Open  func(name, args string) string // custom opening HTML
@@ -157,7 +157,7 @@ func (r *directiveRenderer) render(w util.BufWriter, source []byte, n gast.Node,
 		return gast.WalkContinue, nil
 	}
 	if entering {
-		_, _ = w.WriteString(`<div class="ssg-`)
+		_, _ = w.WriteString(`<div class="ssgo-`)
 		_, _ = w.WriteString(d.Name)
 		_, _ = w.WriteString("\">\n")
 	} else {

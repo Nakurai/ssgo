@@ -8,9 +8,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"ssg.nakurai/internal/builder"
-	"ssg.nakurai/internal/config"
-	"ssg.nakurai/internal/host"
+	"github.com/nakurai/ssgo/internal/builder"
+	"github.com/nakurai/ssgo/internal/config"
+	"github.com/nakurai/ssgo/internal/host"
 )
 
 var deployBuild bool
@@ -22,7 +22,7 @@ var deployCmd = &cobra.Command{
 }
 
 func init() {
-	deployCmd.Flags().BoolVar(&deployBuild, "build", false, "Run ssg generate before deploying")
+	deployCmd.Flags().BoolVar(&deployBuild, "build", false, "Run ssgo generate before deploying")
 }
 
 func runDeploy(cmd *cobra.Command, args []string) error {
@@ -37,7 +37,7 @@ func runDeploy(cmd *cobra.Command, args []string) error {
 	}
 
 	if cfg.Host == "" {
-		fmt.Println("No host configured; run `ssg host` first.")
+		fmt.Println("No host configured; run `ssgo host` first.")
 		return nil
 	}
 
@@ -64,7 +64,7 @@ func runDeploy(cmd *cobra.Command, args []string) error {
 		fmt.Printf("Build complete → %s\n", outDir)
 	} else {
 		if empty, err := isDirEmpty(outDir); err != nil || empty {
-			return fmt.Errorf("build/prod/ is missing or empty; run `ssg generate` first, or `ssg deploy --build`")
+			return fmt.Errorf("build/prod/ is missing or empty; run `ssgo generate` first, or `ssgo deploy --build`")
 		}
 	}
 

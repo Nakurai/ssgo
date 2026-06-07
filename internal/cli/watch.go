@@ -8,10 +8,10 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"ssg.nakurai/internal/builder"
-	"ssg.nakurai/internal/config"
-	"ssg.nakurai/internal/server"
-	"ssg.nakurai/internal/watcher"
+	"github.com/nakurai/ssgo/internal/builder"
+	"github.com/nakurai/ssgo/internal/config"
+	"github.com/nakurai/ssgo/internal/server"
+	"github.com/nakurai/ssgo/internal/watcher"
 )
 
 var watchCmd = &cobra.Command{
@@ -72,7 +72,7 @@ func runWatch(cmd *cobra.Command, args []string) error {
 
 	for ev := range w.Events() {
 		if ev.Kind == watcher.KindConfig {
-			// Reload config on ssg.json change (colors, style switch, etc.)
+			// Reload config on ssgo.json change (colors, style switch, etc.)
 			newCfg, err := config.Load(wd)
 			if err != nil {
 				log.Printf("reload config: %v", err)
@@ -105,8 +105,8 @@ func addWatchTargets(w *watcher.Watcher, projectDir, style string) {
 			log.Printf("watcher: add dir %s: %v", t, err)
 		}
 	}
-	// Watch ssg.json directly
-	cfgFile := filepath.Join(projectDir, "ssg.json")
+	// Watch ssgo.json directly
+	cfgFile := filepath.Join(projectDir, "ssgo.json")
 	if err := w.AddFile(cfgFile); err != nil {
 		log.Printf("watcher: add %s: %v", cfgFile, err)
 	}

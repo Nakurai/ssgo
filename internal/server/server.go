@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"ssg.nakurai/assets"
+	"github.com/nakurai/ssgo/assets"
 )
 
 // Serve starts the dev HTTP server on addr (e.g. ":8088").

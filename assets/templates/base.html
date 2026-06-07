@@ -33,13 +33,13 @@ hr{border:none;border-top:1px solid var(--color-surface);margin:2.5rem 0}
 .nav-search input:focus{border-color:var(--color-primary);width:190px}
 .site-main{padding:1.5rem 0 3rem;min-height:60vh}
 .site-footer{padding:2rem 0;font-size:.8rem;color:var(--color-secondary)}
-.ssg-banner{padding:.4em .9em;border-radius:3px;margin-bottom:1.5rem;font-size:.85rem;font-weight:600;display:inline-block}
-.ssg-draft{background:#fef3c7;color:#92400e}
-.ssg-future{background:#dbeafe;color:#1e40af}
-.ssg-hero{text-align:center;padding:3rem 0;margin-bottom:1.5rem}
-.ssg-hero h1{font-size:2.4rem;margin:0 0 .4rem}
-.ssg-centered{text-align:center}
-.ssg-centered img{display:block;margin:0 auto}
+.ssgo-banner{padding:.4em .9em;border-radius:3px;margin-bottom:1.5rem;font-size:.85rem;font-weight:600;display:inline-block}
+.ssgo-draft{background:#fef3c7;color:#92400e}
+.ssgo-future{background:#dbeafe;color:#1e40af}
+.ssgo-hero{text-align:center;padding:3rem 0;margin-bottom:1.5rem}
+.ssgo-hero h1{font-size:2.4rem;margin:0 0 .4rem}
+.ssgo-centered{text-align:center}
+.ssgo-centered img{display:block;margin:0 auto}
 .post-meta{font-size:.85rem;color:var(--color-secondary);margin:.25rem 0 2rem;font-style:italic}
 .post-tags{margin:2rem 0 0;font-size:.85rem;color:var(--color-secondary)}
 .tag{margin-right:.5rem}
@@ -59,15 +59,15 @@ hr{border:none;border-top:1px solid var(--color-surface);margin:2.5rem 0}
   <div class="site-nav-row">
     {{if .Nav}}<nav class="site-nav">{{range .Nav}}<a href="{{.URL}}">{{.Title}}</a>{{end}}</nav>{{end}}
     <div class="nav-search">
-      <input type="text" id="ssg-search-input" placeholder="Search…" autocomplete="off">
-      <div id="ssg-search-results" class="search-results"></div>
+      <input type="text" id="ssgo-search-input" placeholder="Search…" autocomplete="off">
+      <div id="ssgo-search-results" class="search-results"></div>
     </div>
   </div>
 </header>
 <main class="site-main">
 {{block "content" .}}{{end}}
 </main>
-<footer class="site-footer"><p>Built with ssg</p></footer>
+<footer class="site-footer"><p>Built with ssgo</p></footer>
 </div>
 <script src="/search.js"></script>
 {{block "scripts" .}}{{end}}

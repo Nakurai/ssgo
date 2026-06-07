@@ -7,8 +7,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"ssg.nakurai/internal/builder"
-	"ssg.nakurai/internal/config"
+	"github.com/nakurai/ssgo/internal/builder"
+	"github.com/nakurai/ssgo/internal/config"
 )
 
 var generateCmd = &cobra.Command{

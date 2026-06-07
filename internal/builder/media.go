@@ -71,7 +71,7 @@ func processMedia(rawHTML, srcDir, assetsOutDir string, routes map[string]string
 // URL reference. An empty path yields "". References that are already usable as
 // URLs — external (http(s), //, data:) or site-absolute (leading "/") — pass
 // through unchanged. Otherwise the value is treated as a file path relative to
-// projectDir (where ssg.json lives), or used as given when absolute, and copied
+// projectDir (where ssgo.json lives), or used as given when absolute, and copied
 // into the output assets directory.
 func resolveAsset(ref, projectDir, assetsDir string) (string, error) {
 	if ref == "" {

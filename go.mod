@@ -1,4 +1,4 @@
-module ssg.nakurai
+module github.com/nakurai/ssgo
 
 go 1.26.4
 

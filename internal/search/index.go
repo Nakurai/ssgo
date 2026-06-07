@@ -7,7 +7,7 @@ import (
 	"strings"
 	"unicode"
 
-	"ssg.nakurai/internal/content"
+	"github.com/nakurai/ssgo/internal/content"
 )
 
 type Doc struct {

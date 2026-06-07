@@ -49,7 +49,7 @@ func (f *firebaseHost) Setup(ctx context.Context, root string, force bool) error
 	}
 
 	fmt.Println("firebase.json and .firebaserc written.")
-	fmt.Println("Next: run `ssg generate` then `ssg deploy`.")
+	fmt.Println("Next: run `ssgo generate` then `ssgo deploy`.")
 	return nil
 }
 
@@ -60,7 +60,7 @@ func (f *firebaseHost) Deploy(ctx context.Context, root string) error {
 
 	for _, name := range []string{"firebase.json", ".firebaserc"} {
 		if _, err := os.Stat(filepath.Join(root, name)); err != nil {
-			return fmt.Errorf("%s not found; run `ssg host firebase` first", name)
+			return fmt.Errorf("%s not found; run `ssgo host firebase` first", name)
 		}
 	}
 

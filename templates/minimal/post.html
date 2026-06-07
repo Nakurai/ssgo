@@ -1,6 +1,6 @@
 {{define "content"}}
-{{if .IsDraft}}<div class="ssg-banner ssg-draft">Draft — not published</div>{{end}}
-{{if .IsFuture}}<div class="ssg-banner ssg-future">Scheduled — publishes on {{.Page.Date}}</div>{{end}}
+{{if .IsDraft}}<div class="ssgo-banner ssgo-draft">Draft — not published</div>{{end}}
+{{if .IsFuture}}<div class="ssgo-banner ssgo-future">Scheduled — publishes on {{.Page.Date}}</div>{{end}}
 <article>
   {{if .Page}}
   {{with .Page.Title}}<h1>{{.}}</h1>{{end}}

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"ssg.nakurai/internal/cli"
+	"github.com/nakurai/ssgo/internal/cli"
 )
 
 func main() {
